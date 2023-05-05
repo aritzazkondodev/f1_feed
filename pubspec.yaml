@@ -1,0 +1,53 @@
+name: f1_feed
+description: A new Flutter project.
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.19.2 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #Iconos
+  cupertino_icons: ^1.0.2
+  line_icons: ^2.0.0
+  font_awesome_flutter: ^10.4.0
+  #Manejar state
+  provider: ^6.0.4
+  #Preferencias usuario
+  shared_preferences: ^2.0.15
+  #Navbar inferior
+  google_nav_bar: ^5.0.6
+  #Peticiones HTTP
+  http: ^0.13.5
+  #Imagenes SVG
+  flutter_svg: ^2.0.3
+  #Formato horas
+  intl: ^0.18.0
+  moment_dart: ^0.17.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/images/
+    - assets/images/constructors/
+    - assets/images/drivers/
+    - assets/images/flags/
+
+  fonts:
+    - family: Formula1
+      fonts:
+        - asset: assets/fonts/Formula1-Regular.otf
+        - asset: assets/fonts/Formula1-Bold.otf
