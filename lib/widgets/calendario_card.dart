@@ -10,6 +10,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:f1_feed/models/season_schedule_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moment_dart/moment_dart.dart';
+import 'package:provider/provider.dart';
+
+import '../services/services.dart';
 
 class CalendarioCard extends StatelessWidget {
   const CalendarioCard({super.key, required this.race});
@@ -18,6 +21,9 @@ class CalendarioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final calendarioService = Provider.of<CalendarioService>(context);
+    final bool isNextRace = calendarioService.nextRace[0].round == race.round;
+
     double width = MediaQuery.of(context).size.width;
     final date = race.date.toString().substring(0, 10);
     final time = race.time;
@@ -25,75 +31,84 @@ class CalendarioCard extends StatelessWidget {
 
     return Center(
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          print(isNextRace);
+        },
         child: Padding(
-          padding: const EdgeInsets.all(6),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
           child: Container(
             height: 90,
             decoration: BoxDecoration(
-              border: Border.all(),
+              border: Border.all(
+                  color: !isNextRace
+                      ? AppColors.softBlack.withOpacity(0.5)
+                      : AppColors.mainColor.withOpacity(0.5)),
               borderRadius: BorderRadius.circular(8),
-              color: Colors.black12,
+              color: AppColors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: !isNextRace
+                      ? AppColors.softBlack.withOpacity(0.2)
+                      : AppColors.mainColor.withOpacity(0.2),
+                  spreadRadius: 0.5,
+                  blurRadius: 4,
+                  offset: const Offset(0, 2), // changes position of shadow
+                ),
+              ],
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 140,
-                  height: 90,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(8),
-                      topLeft: Radius.circular(8),
+                Stack(
+                  children: [
+                    Container(
+                      width: 140,
+                      height: 90,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: !isNextRace
+                                ? AppColors.softBlack.withOpacity(0.4)
+                                : AppColors.mainColor.withOpacity(0.6),
+                            spreadRadius: 0.5,
+                            blurRadius: 6,
+                            offset: const Offset(
+                                5, 0), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(8),
+                          topLeft: Radius.circular(8),
+                        ),
+                        child: Image.asset(
+                          'assets/images/flags/${race.circuit.circuitId}.png',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     ),
-                    child: Image.asset(
-                      'assets/images/flags/${race.circuit.circuitId}.png',
-                      fit: BoxFit.fill,
-                    ),
-                  ),
+                  ],
                 ),
-                const SizedBox(width: 20),
-                Text(formattedDate)
+                const SizedBox(width: 30),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      formattedDate,
+                    ),
+                    Text(
+                      '${race.circuit.location.country}, ${race.circuit.location.locality}',
+                      style: const TextStyle(
+                          fontSize: 14, fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
         ),
-      ),
-    );
-
-    Center(
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        color: Theme.of(context).colorScheme.surfaceVariant,
-        clipBehavior: Clip.hardEdge,
-        child: InkWell(
-            splashColor: Colors.red.withAlpha(30),
-            onTap: () {
-              print('fiuuuuuuuum');
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Row(
-                children: [
-                  if (race.circuit.circuitId != 'interlagos') ...[
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(
-                        'assets/images/flags/${race.circuit.circuitId}.png',
-                        height: 80,
-                        width: 120,
-                      ),
-                    )
-                  ] else ...[
-                    Text(race.circuit.circuitId)
-                  ],
-                  const SizedBox(width: 20),
-                  Text(formattedDate)
-                ],
-              ),
-            )),
       ),
     );
   }

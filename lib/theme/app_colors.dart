@@ -7,6 +7,7 @@ class AppColors {
   static Color softBlack = const Color.fromARGB(255, 48, 48, 48);
 
   static Color white = Colors.white;
+  static Color softWhite = Color.fromARGB(255, 233, 233, 233);
 
   static Color mainColor = const Color.fromARGB(255, 255, 24, 1);
   static Color accentColor = const Color.fromARGB(255, 255, 140, 128);

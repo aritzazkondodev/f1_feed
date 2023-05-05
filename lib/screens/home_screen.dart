@@ -7,8 +7,36 @@ import 'package:provider/provider.dart';
 import 'package:f1_feed/services/services.dart';
 import 'package:f1_feed/widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool nextRaceLoaded = false;
+  bool nextRaceLoadingError = false;
+  late Race nextRace;
+
+  Future<Race?> getNextRace() async {
+    Race? nextRace = await CalendarioService.getNextRace();
+    return nextRace;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getNextRace().then((value) {
+      nextRaceLoaded = true;
+      if (value != null) {
+        nextRace = value;
+      } else {
+        nextRaceLoadingError = true;
+      }
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +54,14 @@ class HomeScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           const SizedBox(height: 10),
-          FutureBuilder(
-            future: CalendarioService.getNextRace(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return RaceBasicInfo(race: snapshot.data!);
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
+          LayoutBuilder(
+            builder: (context, constraints) {
+              if (nextRaceLoadingError) {
+                return const Text("Connection error");
+              } else if (nextRaceLoaded) {
+                return RaceBasicInfo(race: nextRace);
               }
+
               return Center(
                 child: SizedBox(
                   height: 150,
@@ -68,3 +96,27 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+// FutureBuilder(
+//             future: CalendarioService.getNextRace(),
+//             builder: (context, snapshot) {
+//               if (snapshot.hasData) {
+//                 return RaceBasicInfo(race: snapshot.data!);
+//               } else if (snapshot.hasError) {
+//                 return Text('${snapshot.error}');
+//               }
+//               return Center(
+//                 child: SizedBox(
+//                   height: 150,
+//                   child: Center(
+//                     child: CircularProgressIndicator(
+//                       strokeWidth: 5,
+//                       color: AppColors.mainColor,
+//                     ),
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),

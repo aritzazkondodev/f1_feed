@@ -10,6 +10,7 @@ class AppTheme {
       secondary: Colors.orangeAccent,
       brightness: Brightness.light,
     ),
+    scaffoldBackgroundColor: AppColors.softWhite,
     textTheme: TextTheme(
         displayLarge: TextStyle(
           fontSize: 35,
@@ -54,6 +55,7 @@ class AppTheme {
       secondary: Colors.orangeAccent,
       brightness: Brightness.dark,
     ),
+    scaffoldBackgroundColor: AppColors.softWhite,
     textTheme: TextTheme(
       displayLarge: TextStyle(
         fontSize: 35,

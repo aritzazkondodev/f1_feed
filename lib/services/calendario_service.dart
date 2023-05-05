@@ -24,9 +24,10 @@ class CalendarioService extends ChangeNotifier {
 
     races = racesResponse.mrData.raceTable.races;
 
-    // nextRace = [];
-    // nextRace.add(racesResponse.mrData.raceTable.races.firstWhere((element) =>
-    //     element.date.isAfter(DateTime.now().add(const Duration(days: 1)))));
+    nextRace = [];
+    nextRace.add(racesResponse.mrData.raceTable.races.firstWhere((element) =>
+        element.date.isAfter(DateTime.now().add(const Duration(days: 1)))));
+
     notifyListeners();
   }
 
