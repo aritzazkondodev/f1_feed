@@ -2,9 +2,9 @@ import 'package:f1_feed/models/season_schedule_model.dart';
 import 'package:f1_feed/shared/utils.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:f1_feed/widgets/widgets.dart';
+
+import '../theme/theme.dart';
 
 class RaceBasicInfo extends StatelessWidget {
   const RaceBasicInfo({super.key, required this.race});
@@ -20,6 +20,7 @@ class RaceBasicInfo extends StatelessWidget {
 
     return Center(
       child: Card(
+        elevation: 8,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -34,17 +35,18 @@ class RaceBasicInfo extends StatelessWidget {
           },
           child: SizedBox(
             width: width,
-            height: 150,
+            height: 130,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
                       'assets/images/flags/${race.circuit.circuitId}.png',
-                      height: 120,
+                      height: 100,
                       width: 160,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(width: 20),
@@ -56,14 +58,45 @@ class RaceBasicInfo extends StatelessWidget {
                       children: [
                         Text(
                           formattedDate,
-                          style: const TextStyle(fontWeight: FontWeight.w400),
+                          style: const TextStyle(fontWeight: FontWeight.w500),
                         ),
-                        Text(
-                          race.circuit.location.country,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text('${race.circuit.location.locality}\n'),
+
+                        if (race.sprint != null) ...[
+                          Text(
+                            '${race.circuit.location.country}, ${race.circuit.location.locality}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            "SPRINT\n",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.mainColor,
+                            ),
+                          ),
+                        ] else ...[
+                          Text(
+                            '${race.circuit.location.country}, ${race.circuit.location.locality}\n',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                        // Text(
+                        //   race.circuit.location.country,
+                        //   maxLines: 2,
+                        //   overflow: TextOverflow.ellipsis,
+                        // ),
+                        // Text('${race.circuit.location.locality}\n'),
                         Text('Round ${race.round}'),
                       ],
                     ),

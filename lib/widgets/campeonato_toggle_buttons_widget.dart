@@ -33,6 +33,7 @@ class CampeonatoToggleButtons extends StatelessWidget {
       selectedColor: AppColors.white,
       fillColor: AppColors.mainColor,
       isSelected: selectedOption,
+      borderColor: AppColors.mainColor,
       children: toggleButtonProvider.options,
     );
   }

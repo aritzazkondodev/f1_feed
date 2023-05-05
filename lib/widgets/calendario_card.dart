@@ -32,7 +32,7 @@ class CalendarioCard extends StatelessWidget {
     return Center(
       child: GestureDetector(
         onTap: () {
-          print(isNextRace);
+          print(race.sprint == null);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
@@ -42,17 +42,17 @@ class CalendarioCard extends StatelessWidget {
               border: Border.all(
                   color: !isNextRace
                       ? AppColors.softBlack.withOpacity(0.5)
-                      : AppColors.mainColor.withOpacity(0.5)),
+                      : AppColors.mainColor.withOpacity(0.7)),
               borderRadius: BorderRadius.circular(8),
               color: AppColors.white,
               boxShadow: [
                 BoxShadow(
                   color: !isNextRace
                       ? AppColors.softBlack.withOpacity(0.2)
-                      : AppColors.mainColor.withOpacity(0.2),
+                      : AppColors.mainColor.withOpacity(0.8),
                   spreadRadius: 0.5,
                   blurRadius: 4,
-                  offset: const Offset(0, 2), // changes position of shadow
+                  offset: const Offset(0.5, 3), // changes position of shadow
                 ),
               ],
             ),
@@ -69,7 +69,7 @@ class CalendarioCard extends StatelessWidget {
                           BoxShadow(
                             color: !isNextRace
                                 ? AppColors.softBlack.withOpacity(0.4)
-                                : AppColors.mainColor.withOpacity(0.6),
+                                : AppColors.mainColor.withOpacity(0.4),
                             spreadRadius: 0.5,
                             blurRadius: 6,
                             offset: const Offset(
@@ -97,12 +97,26 @@ class CalendarioCard extends StatelessWidget {
                   children: [
                     Text(
                       formattedDate,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                     Text(
                       '${race.circuit.location.country}, ${race.circuit.location.locality}',
                       style: const TextStyle(
-                          fontSize: 14, fontStyle: FontStyle.italic),
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
+                    if (race.sprint != null) ...[
+                      Text(
+                        "SPRINT",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.mainColor,
+                        ),
+                      ),
+                    ]
                   ],
                 )
               ],

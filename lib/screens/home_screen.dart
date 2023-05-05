@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final productService = Provider.of<StandingService>(context);
-    final calendarioService = Provider.of<CalendarioService>(context);
+    // final productService = Provider.of<StandingService>(context);
+    // final calendarioService = Provider.of<CalendarioService>(context);
 
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return Center(
                 child: SizedBox(
-                  height: 150,
+                  height: 140,
                   child: Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 5,
